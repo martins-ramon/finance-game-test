@@ -45,10 +45,11 @@ function loop(now) {
 }
 
 function update(dt) {
+  if (!isAnyModalOpen()) {
+    player.update(dt, keysPressed);
+  }
   if (jobState.active) {
     updateJob(dt);
-  } else if (!isAnyModalOpen()) {
-    player.update(dt, keysPressed);
   }
 
   const loc = getLocationPlayerIsIn(player.getRect());

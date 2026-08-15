@@ -26,8 +26,8 @@ const mapData = buildMapData();
 
 // Árvores de decoração (tile sólido) em posições fixas, longe dos caminhos e prédios
 const treeTiles = [
-  { col: 2, row: 5 }, { col: 17, row: 5 }, { col: 2, row: 9 }, { col: 17, row: 9 },
-  { col: 5, row: 5 }, { col: 14, row: 5 }, { col: 5, row: 9 }, { col: 14, row: 9 },
+  { col: 2, row: 5 }, { col: 17, row: 5 }, { col: 2, row: 6 }, { col: 17, row: 6 },
+  { col: 5, row: 5 }, { col: 14, row: 5 }, { col: 5, row: 6 }, { col: 14, row: 6 },
 ];
 for (const t of treeTiles) {
   if (mapData[t.row] && mapData[t.row][t.col] === 0) {
@@ -53,12 +53,12 @@ const locations = [
   },
   {
     id: 'shop', name: 'Loja', emoji: '🛍️',
-    x: 100, y: 430, width: 160, height: 110,
+    x: 100, y: 390, width: 160, height: 110,
     color: COLORS.shop, roofColor: COLORS.shopRoof,
   },
   {
     id: 'house', name: 'Casa', emoji: '🏠',
-    x: 540, y: 430, width: 160, height: 110,
+    x: 540, y: 390, width: 160, height: 110,
     color: COLORS.house, roofColor: COLORS.houseRoof,
   },
   {
