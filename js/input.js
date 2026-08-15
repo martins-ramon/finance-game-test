@@ -1,11 +1,14 @@
 // Captura de teclado
 const keysPressed = new Set();
 
+// Setas: movem o personagem. WASD: orbita/afasta a câmera. E/Enter: interagir.
 const KEY_MAP = {
-  ArrowUp: 'up', KeyW: 'up',
-  ArrowDown: 'down', KeyS: 'down',
-  ArrowLeft: 'left', KeyA: 'left',
-  ArrowRight: 'right', KeyD: 'right',
+  ArrowUp: 'up',
+  ArrowDown: 'down',
+  ArrowLeft: 'left',
+  ArrowRight: 'right',
+  KeyW: 'cam-in', KeyS: 'cam-out',
+  KeyA: 'cam-left', KeyD: 'cam-right',
   KeyE: 'interact', Enter: 'interact',
 };
 

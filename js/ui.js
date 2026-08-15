@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('btn-help').addEventListener('click', () => {
     showDialogue([
-      { text: '🦉 Dicas rápidas: use as setas ou WASD para andar. Pressione E perto de um prédio para entrar.' },
+      { text: '🦉 Dicas rápidas: use as SETAS para andar e W A S D para controlar a câmera (A/D giram, W/S aproximam/afastam). Pressione E perto de um prédio para entrar.' },
       { text: '💰 Ganhe dinheiro no Trabalhinho, depois decida: guardar na Poupança, investir na Bolsa, ou gastar na Loja!' },
     ]);
   });

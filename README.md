@@ -7,11 +7,11 @@ Jogo educativo em **3D (Three.js/WebGL) + JavaScript puro** (sem frameworks de U
 
 ## Como jogar
 
-- **Setas ou WASD**: andar pelo mundo
+- **Setas do teclado**: andar pelo mundo (o personagem gira para a direção em que anda)
+- **W A S D**: controlar a câmera — A/D orbitam ao redor do personagem, W/S aproximam/afastam o zoom
 - **E** ou **Enter**: interagir (entrar em um local, avançar diálogo)
 - **☀️ Avançar Dia** (botão no topo): passa um dia no jogo — aplica juros da poupança, atualiza os preços das ações e libera o Trabalhinho de novo
 - **🦉** (botão no topo): reabre dicas do Professor Coruja a qualquer momento
-- A câmera fica em 3ª pessoa, sempre atrás do personagem, virando automaticamente para a direção que ele está andando
 
 ### Locais do mapa
 

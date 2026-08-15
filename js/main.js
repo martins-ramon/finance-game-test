@@ -25,7 +25,7 @@ function init() {
     persistGame();
     showDialogue([
       { text: '🦉 Olá! Eu sou o Professor Coruja e vou te ajudar a aprender sobre dinheiro nesta aventura!' },
-      { text: 'Use as setas ou WASD para andar pelo mundo. Visite o Trabalhinho 💼 para ganhar seu primeiro dinheiro.' },
+      { text: 'Use as SETAS do teclado para andar pelo mundo, e as teclas W A S D para girar e aproximar/afastar a câmera. Visite o Trabalhinho 💼 para ganhar seu primeiro dinheiro.' },
       { text: 'Depois, decida: guardar no Banco 🏦, investir na Bolsa 📈, ou comprar coisas legais na Loja 🛍️!' },
     ]);
   }
@@ -47,6 +47,7 @@ function loop(now) {
 function update(dt) {
   if (!isAnyModalOpen()) {
     player.update(dt, keysPressed);
+    updateCameraOrbit(dt, keysPressed);
   }
   if (jobState.active) {
     updateJob(dt);

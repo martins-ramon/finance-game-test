@@ -207,14 +207,33 @@ function buildPlayerMesh() {
   playerHead.castShadow = true;
   playerGroup.add(playerHead);
 
-  const eyeGeo = new THREE.SphereGeometry(1.6, 6, 6);
-  const eyeMat = new THREE.MeshLambertMaterial({ color: '#333' });
+  // olhos (estilo boneco Lego: pontos pretos simples)
+  const eyeGeo = new THREE.SphereGeometry(2.1, 8, 8);
+  const eyeMat = new THREE.MeshLambertMaterial({ color: '#2a2a2a' });
+  const eyeY = playerHead.position.y + 1.5;
   const eyeL = new THREE.Mesh(eyeGeo, eyeMat);
-  eyeL.position.set(-4.5, playerHead.position.y, PLAYER_HEAD_RADIUS - 3);
+  eyeL.position.set(-4.8, eyeY, PLAYER_HEAD_RADIUS - 3);
   const eyeR = new THREE.Mesh(eyeGeo, eyeMat);
-  eyeR.position.set(4.5, playerHead.position.y, PLAYER_HEAD_RADIUS - 3);
+  eyeR.position.set(4.8, eyeY, PLAYER_HEAD_RADIUS - 3);
   playerGroup.add(eyeL);
   playerGroup.add(eyeR);
+
+  // boca (sorriso: metade de um torus)
+  const mouthGeo = new THREE.TorusGeometry(4.2, 1, 8, 12, Math.PI);
+  const mouthMat = new THREE.MeshLambertMaterial({ color: '#8a3d2e' });
+  const mouth = new THREE.Mesh(mouthGeo, mouthMat);
+  mouth.position.set(0, playerHead.position.y - 5, PLAYER_HEAD_RADIUS - 4.5);
+  mouth.rotation.z = Math.PI;
+  playerGroup.add(mouth);
+
+  // cabelo (calota sobre o topo da cabeça, estilo peça de cabelo do Lego)
+  // thetaLength pequeno o suficiente para não descer até a linha dos olhos/boca
+  const hairGeo = new THREE.SphereGeometry(PLAYER_HEAD_RADIUS * 1.08, 14, 10, 0, Math.PI * 2, 0, Math.PI * 0.4);
+  const hairMat = new THREE.MeshLambertMaterial({ color: '#4a2f1a' });
+  const hair = new THREE.Mesh(hairGeo, hairMat);
+  hair.position.y = playerHead.position.y;
+  hair.castShadow = true;
+  playerGroup.add(hair);
 
   scene.add(playerGroup);
 }
@@ -263,15 +282,32 @@ function initScene(canvas) {
   buildPlayerMesh();
 }
 
-const CAMERA_DISTANCE = 175;
-const CAMERA_HEIGHT = 175;
+const CAMERA_DISTANCE_DEFAULT = 175;
+const CAMERA_DISTANCE_MIN = 80;
+const CAMERA_DISTANCE_MAX = 320;
+const CAMERA_ZOOM_SPEED = 110; // unidades/s
+const CAMERA_ORBIT_SPEED = 1.8; // radianos/s
+const CAMERA_HEIGHT_RATIO = 1.0; // altura da câmera proporcional ao zoom (quanto mais perto, mais "de frente")
+const CAMERA_HEIGHT_MIN = 70;
 const CAMERA_LOOK_HEIGHT = 45;
 const CAMERA_LOOK_AHEAD = 60;
 const CAMERA_SMOOTH = 6; // maior = câmera segue mais rápido
 
+// Órbita da câmera: independente da direção do personagem, controlada por WASD
+let cameraYaw = 0; // 0 = mesma direção que 'down' (Z positivo)
+let cameraDistance = CAMERA_DISTANCE_DEFAULT;
+
 const idealCameraPos = new THREE.Vector3();
 const idealLookAt = new THREE.Vector3();
 const currentLookAt = new THREE.Vector3(0, 0, 0);
+
+// Atualiza o ângulo/distância da câmera a partir das teclas WASD (independente do personagem)
+function updateCameraOrbit(dt, keys) {
+  if (keys.has('cam-left')) cameraYaw -= CAMERA_ORBIT_SPEED * dt;
+  if (keys.has('cam-right')) cameraYaw += CAMERA_ORBIT_SPEED * dt;
+  if (keys.has('cam-in')) cameraDistance = clamp(cameraDistance - CAMERA_ZOOM_SPEED * dt, CAMERA_DISTANCE_MIN, CAMERA_DISTANCE_MAX);
+  if (keys.has('cam-out')) cameraDistance = clamp(cameraDistance + CAMERA_ZOOM_SPEED * dt, CAMERA_DISTANCE_MIN, CAMERA_DISTANCE_MAX);
+}
 
 function updatePlayerMesh(player) {
   const { x, z } = worldToScene(player.x + player.width / 2, player.y + player.height / 2);
@@ -295,27 +331,28 @@ function updatePlayerMesh(player) {
   }
 }
 
-function idealCameraDistance(px, pz, forward) {
+function idealCameraDistance(px, pz, forward, maxDistance) {
   // evita que a câmera atravesse/fique colada num prédio atrás do jogador
   const behind = new THREE.Vector3(-forward.x, 0, -forward.z);
   cameraRaycaster.set(new THREE.Vector3(px, 40, pz), behind);
-  cameraRaycaster.far = CAMERA_DISTANCE;
+  cameraRaycaster.far = maxDistance;
   const hits = cameraRaycaster.intersectObjects(buildingColliders, false);
   if (hits.length > 0) {
     return Math.max(50, hits[0].distance - 20);
   }
-  return CAMERA_DISTANCE;
+  return maxDistance;
 }
 
 function updateCamera(player, dt) {
-  const forward = DIRECTION_VECTORS[player.direction] || DIRECTION_VECTORS.down;
+  const forward = { x: Math.sin(cameraYaw), z: Math.cos(cameraYaw) };
   const px = playerGroup.position.x;
   const pz = playerGroup.position.z;
-  const distance = idealCameraDistance(px, pz, forward);
+  const distance = idealCameraDistance(px, pz, forward, cameraDistance);
+  const height = Math.max(CAMERA_HEIGHT_MIN, cameraDistance * CAMERA_HEIGHT_RATIO);
 
   idealCameraPos.set(
     px - forward.x * distance,
-    CAMERA_HEIGHT,
+    height,
     pz - forward.z * distance
   );
   idealLookAt.set(
