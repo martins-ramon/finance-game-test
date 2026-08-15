@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mundo da Poupança - Aventura Financeira</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦉</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div id="game-container">
+
+    <!-- HUD -->
+    <div id="hud">
+      <div class="hud-item" title="Dinheiro na carteira">💰 <span id="hud-cash">R$ 0,00</span></div>
+      <div class="hud-item" title="Saldo na poupança">🏦 <span id="hud-savings">R$ 0,00</span></div>
+      <div class="hud-item" title="Valor investido em ações">📈 <span id="hud-portfolio">R$ 0,00</span></div>
+      <div class="hud-item" title="Dia atual do jogo">📅 Dia <span id="hud-day">1</span></div>
+      <button id="btn-advance-day" class="hud-button">☀️ Avançar Dia</button>
+      <button id="btn-help" class="hud-button hud-owl" title="Falar com o Professor Coruja">🦉</button>
+    </div>
+
+    <!-- Canvas do jogo -->
+    <canvas id="game-canvas" width="800" height="600"></canvas>
+
+    <!-- Prompt de interação flutuante -->
+    <div id="interact-prompt" class="hidden">Pressione <kbd>E</kbd> para entrar</div>
+
+    <!-- Painel: Diálogo do Professor Coruja -->
+    <div id="dialogue-modal" class="modal-overlay hidden">
+      <div class="modal-panel dialogue-panel">
+        <div class="dialogue-owl">🦉</div>
+        <div class="dialogue-body">
+          <div class="dialogue-speaker">Professor Coruja</div>
+          <div class="dialogue-text" id="dialogue-text">...</div>
+          <button id="dialogue-next" class="btn-primary">Próximo »</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Painel: Banco -->
+    <div id="bank-modal" class="modal-overlay hidden">
+      <div class="modal-panel">
+        <div class="modal-header bank-header">
+          <span>🏦 Banco da Poupança</span>
+          <button class="modal-close" data-close="bank-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-info">Saldo na carteira: <strong id="bank-cash-display">R$ 0,00</strong></p>
+          <p class="modal-info">Saldo na poupança: <strong id="bank-savings-display">R$ 0,00</strong></p>
+          <p class="modal-formula">Fórmula: Montante = Capital × (1 + taxa) ^ dias — taxa de 1% ao dia</p>
+          <p class="modal-info">Se você não mexer, em 7 dias seu saldo será de <strong id="bank-projection">R$ 0,00</strong></p>
+
+          <div class="input-row">
+            <input type="number" id="bank-amount" min="1" step="1" placeholder="Valor em R$">
+            <button id="bank-deposit" class="btn-primary">Depositar</button>
+            <button id="bank-withdraw" class="btn-secondary">Sacar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Painel: Bolsa de Valores -->
+    <div id="stock-modal" class="modal-overlay hidden">
+      <div class="modal-panel modal-panel-wide">
+        <div class="modal-header stock-header">
+          <span>📈 Bolsa de Valores</span>
+          <button class="modal-close" data-close="stock-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-info">Dinheiro disponível: <strong id="stock-cash-display">R$ 0,00</strong></p>
+          <p class="modal-info">Valor total investido: <strong id="stock-total-display">R$ 0,00</strong> | Lucro/Prejuízo: <strong id="stock-profit-display">R$ 0,00</strong></p>
+          <div id="stock-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Painel: Loja -->
+    <div id="shop-modal" class="modal-overlay hidden">
+      <div class="modal-panel modal-panel-wide">
+        <div class="modal-header shop-header">
+          <span>🛍️ Loja</span>
+          <button class="modal-close" data-close="shop-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-info">Dinheiro disponível: <strong id="shop-cash-display">R$ 0,00</strong></p>
+          <p class="modal-tip">💡 Lembre-se: esse dinheiro também poderia render na poupança ou crescer investido!</p>
+          <div id="shop-list"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Painel: Casa -->
+    <div id="house-modal" class="modal-overlay hidden">
+      <div class="modal-panel">
+        <div class="modal-header house-header">
+          <span>🏠 Sua Casa</span>
+          <button class="modal-close" data-close="house-modal">✕</button>
+        </div>
+        <div class="modal-body">
+          <p class="modal-info">Decorações da sua casa:</p>
+          <div id="house-decorations">Nenhuma decoração ainda. Visite a Loja! 🛍️</div>
+          <button id="house-sleep" class="btn-primary">😴 Dormir (avançar dia)</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/gameState.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/dialogue.js"></script>
+  <script src="js/bank.js"></script>
+  <script src="js/stockMarket.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/job.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

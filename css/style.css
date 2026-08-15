@@ -1,0 +1,396 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #8ec9f0 0%, #cdeaff 100%);
+  font-family: 'Trebuchet MS', 'Comic Sans MS', system-ui, sans-serif;
+}
+
+#game-container {
+  position: relative;
+  width: 800px;
+  max-width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  background: #cdeaff;
+}
+
+/* HUD */
+#hud {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: linear-gradient(180deg, #3a6ea5, #2c517d);
+  color: #fff;
+  font-weight: bold;
+  flex-wrap: wrap;
+}
+
+.hud-item {
+  background: rgba(255,255,255,0.15);
+  border-radius: 10px;
+  padding: 6px 10px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.hud-button {
+  margin-left: auto;
+  background: #ffd23f;
+  color: #4a3200;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 14px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 3px 0 #c79c1f;
+}
+
+.hud-button:hover {
+  filter: brightness(1.05);
+}
+
+.hud-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 #c79c1f;
+}
+
+.hud-owl {
+  margin-left: 6px;
+  background: #a3e4a3;
+  box-shadow: 0 3px 0 #5bab5b;
+  font-size: 18px;
+  padding: 6px 10px;
+}
+
+canvas#game-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #7cc576;
+  image-rendering: pixelated;
+}
+
+/* Prompt de interação */
+#interact-prompt {
+  position: absolute;
+  left: 50%;
+  bottom: 24px;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+kbd {
+  background: #fff;
+  color: #222;
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin: 0 2px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Modais */
+.modal-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 30, 40, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.modal-panel {
+  background: #fffaf0;
+  border-radius: 18px;
+  width: 420px;
+  max-width: 90%;
+  max-height: 85%;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  border: 4px solid #fff;
+}
+
+.modal-panel-wide {
+  width: 560px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 14px 14px 0 0;
+}
+
+.bank-header { background: linear-gradient(180deg, #f4c542, #d9a516); color: #4a3200; }
+.stock-header { background: linear-gradient(180deg, #8e5bd9, #6a3aa8); }
+.shop-header { background: linear-gradient(180deg, #e85d8a, #c23e69); }
+.house-header { background: linear-gradient(180deg, #c99a5b, #a67638); }
+
+.modal-close {
+  background: rgba(255,255,255,0.3);
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  color: inherit;
+}
+
+.modal-body {
+  padding: 18px;
+}
+
+.modal-info {
+  font-size: 15px;
+  margin: 6px 0;
+  color: #333;
+}
+
+.modal-formula {
+  font-size: 13px;
+  color: #6b5a2a;
+  background: #fff3d0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 10px 0;
+}
+
+.modal-tip {
+  font-size: 13px;
+  color: #7a2f47;
+  background: #ffe1ec;
+  border-radius: 8px;
+  padding: 8px 10px;
+  margin: 10px 0;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.input-row input {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px solid #ddd;
+  font-size: 15px;
+}
+
+.btn-primary, .btn-secondary {
+  border: none;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #4caf50;
+  color: #fff;
+  box-shadow: 0 3px 0 #357a38;
+}
+
+.btn-secondary {
+  background: #f0ad4e;
+  color: #4a3200;
+  box-shadow: 0 3px 0 #b8830f;
+}
+
+.btn-primary:active, .btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.btn-primary:disabled, .btn-secondary:disabled, .btn-buy:disabled, .btn-sell:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Diálogo */
+.dialogue-panel {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px;
+  width: 460px;
+}
+
+.dialogue-owl {
+  font-size: 56px;
+  flex-shrink: 0;
+}
+
+.dialogue-speaker {
+  font-weight: bold;
+  color: #6a3aa8;
+  margin-bottom: 6px;
+}
+
+.dialogue-text {
+  font-size: 15px;
+  line-height: 1.4;
+  color: #333;
+  min-height: 60px;
+}
+
+/* Bolsa - cards de empresas */
+.stock-card {
+  background: #f6f0ff;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 2px solid #e0d3f7;
+}
+
+.stock-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.stock-emoji {
+  font-size: 28px;
+}
+
+.stock-name {
+  font-weight: bold;
+  flex: 1;
+}
+
+.stock-risk {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.risk-baixo { background: #4caf50; }
+.risk-medio { background: #ff9800; }
+.risk-alto { background: #f4511e; }
+.risk-muito-alto { background: #b71c1c; }
+
+.stock-price-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-size: 14px;
+}
+
+.price-up { color: #2e7d32; font-weight: bold; }
+.price-down { color: #c62828; font-weight: bold; }
+
+.stock-chart {
+  margin-top: 8px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.stock-holdings {
+  font-size: 13px;
+  color: #555;
+  margin-top: 6px;
+}
+
+.stock-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.stock-actions input {
+  width: 70px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 2px solid #ddd;
+}
+
+.btn-buy, .btn-sell {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-buy { background: #4caf50; color: #fff; }
+.btn-sell { background: #e57373; color: #fff; }
+
+/* Loja - itens */
+.shop-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fff0f5;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border: 2px solid #ffd6e3;
+}
+
+.shop-item-emoji {
+  font-size: 28px;
+}
+
+.shop-item-info {
+  flex: 1;
+}
+
+.shop-item-name {
+  font-weight: bold;
+}
+
+.shop-item-price {
+  font-size: 13px;
+  color: #888;
+}
+
+.shop-buy-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-weight: bold;
+  background: #e85d8a;
+  color: #fff;
+  cursor: pointer;
+}
+
+.shop-buy-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.shop-buy-btn.owned {
+  background: #4caf50;
+}
