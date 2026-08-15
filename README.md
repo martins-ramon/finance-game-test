@@ -1,5 +1,8 @@
 # 🦉 Mundo da Poupança — Aventura Financeira
 
+**Aluno:** Vicente Mitczuck da Silva
+**Escola:** Maple Bear
+
 Jogo educativo em **3D (Three.js/WebGL) + JavaScript puro** (sem frameworks de UI, sem etapa de build), criado como trabalho escolar de Matemática Financeira do 6º ano. O objetivo é ensinar, de forma lúdica, os conceitos de **poupança com juros compostos** e **investimento em ações** (risco, retorno e diversificação), num mundo aberto 3D visto em câmera de terceira pessoa atrás do personagem.
 
 ## Como jogar
