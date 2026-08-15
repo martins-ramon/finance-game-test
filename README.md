@@ -1,6 +1,6 @@
 # 🦉 Mundo da Poupança — Aventura Financeira
 
-Jogo educativo em **HTML5 Canvas + JavaScript puro** (sem frameworks, sem build), criado como trabalho escolar de Matemática Financeira do 6º ano. O objetivo é ensinar, de forma lúdica, os conceitos de **poupança com juros compostos** e **investimento em ações** (risco, retorno e diversificação).
+Jogo educativo em **3D (Three.js/WebGL) + JavaScript puro** (sem frameworks de UI, sem etapa de build), criado como trabalho escolar de Matemática Financeira do 6º ano. O objetivo é ensinar, de forma lúdica, os conceitos de **poupança com juros compostos** e **investimento em ações** (risco, retorno e diversificação), num mundo aberto 3D visto em câmera de terceira pessoa atrás do personagem.
 
 ## Como jogar
 
@@ -8,6 +8,7 @@ Jogo educativo em **HTML5 Canvas + JavaScript puro** (sem frameworks, sem build)
 - **E** ou **Enter**: interagir (entrar em um local, avançar diálogo)
 - **☀️ Avançar Dia** (botão no topo): passa um dia no jogo — aplica juros da poupança, atualiza os preços das ações e libera o Trabalhinho de novo
 - **🦉** (botão no topo): reabre dicas do Professor Coruja a qualquer momento
+- A câmera fica em 3ª pessoa, sempre atrás do personagem, virando automaticamente para a direção que ele está andando
 
 ### Locais do mapa
 
@@ -23,11 +24,11 @@ O progresso é salvo automaticamente no `localStorage` do navegador.
 
 ## Rodando no Replit
 
-Este projeto é **HTML/CSS/JS estático puro**, sem dependências e sem etapa de build.
+Este projeto é **HTML/CSS/JS estático**, sem etapa de build. A única dependência externa é a biblioteca **Three.js**, carregada via CDN (`<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js">` no `index.html`) — o Repl precisa ter acesso à internet ao rodar (o normal em qualquer Repl).
 
 **Opção recomendada:** crie um Repl usando o template **"HTML, CSS, JS"**. O botão "Run" do Replit já serve o `index.html` da raiz automaticamente — não é necessário nenhum passo extra.
 
-**Alternativa (template Node.js):** se o Repl usado for do tipo Node.js, adicione um pequeno servidor estático (usando apenas os módulos nativos `http`/`fs`, sem instalar dependências) e configure o `.replit` para rodá-lo com `node server.js`. O jogo em si continua sendo só HTML/CSS/JS.
+**Alternativa (template Node.js):** se o Repl usado for do tipo Node.js, adicione um pequeno servidor estático (usando apenas os módulos nativos `http`/`fs`, sem instalar dependências) e configure o `.replit` para rodá-lo com `node server.js`. O jogo em si continua sendo só HTML/CSS/JS + Three.js via CDN.
 
 ## Rodando localmente
 
@@ -50,7 +51,7 @@ js/gameState.js       Estado central do jogo e avanço de dia
 js/map.js            Mapa (tiles) e locais (prédios)
 js/input.js          Captura de teclado
 js/player.js          Movimento e colisão do jogador
-js/render.js          Desenho do mundo e do personagem no canvas
+js/render.js          Cena 3D (Three.js): mundo, prédios, personagem e câmera em 3ª pessoa
 js/dialogue.js         Diálogos do Professor Coruja
 js/bank.js            Lógica da poupança (juros compostos)
 js/stockMarket.js      Lógica da Bolsa de Valores (empresas fictícias)

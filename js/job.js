@@ -30,6 +30,13 @@ function startJobMinigame() {
     const spot = randomWalkableSpot();
     jobState.coins.push({ x: spot.x, y: spot.y, collected: false });
   }
+  document.getElementById('job-hud').classList.remove('hidden');
+  updateJobHud();
+}
+
+function updateJobHud() {
+  document.getElementById('job-timer').textContent = Math.ceil(Math.max(jobState.timeLeft, 0)) + 's';
+  document.getElementById('job-coins').textContent = formatMoney(jobState.collected);
 }
 
 function updateJob(dt) {
@@ -50,6 +57,8 @@ function updateJob(dt) {
     }
   }
 
+  updateJobHud();
+
   if (jobState.timeLeft <= 0) {
     endJobMinigame();
   }
@@ -57,6 +66,7 @@ function updateJob(dt) {
 
 function endJobMinigame() {
   jobState.active = false;
+  document.getElementById('job-hud').classList.add('hidden');
   gameState.cash += jobState.collected;
   gameState.jobDoneToday = true;
   updateHUD();
@@ -64,25 +74,4 @@ function endJobMinigame() {
   showDialogue([
     { text: `💼 Bom trabalho! Você coletou ${formatMoney(jobState.collected)}. Agora pense: vai gastar, guardar na poupança ou investir na Bolsa?` },
   ]);
-}
-
-function drawJobMinigame(ctx) {
-  if (!jobState.active) return;
-
-  for (const coin of jobState.coins) {
-    if (coin.collected) continue;
-    ctx.font = '22px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('🪙', coin.x, coin.y + 8);
-    ctx.textAlign = 'start';
-  }
-
-  ctx.fillStyle = 'rgba(0,0,0,0.6)';
-  roundRect(ctx, CANVAS_WIDTH / 2 - 100, 8, 200, 34, 10);
-  ctx.fill();
-  ctx.fillStyle = '#fff';
-  ctx.font = 'bold 15px sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText(`⏱️ ${Math.ceil(jobState.timeLeft)}s  |  🪙 ${formatMoney(jobState.collected)}`, CANVAS_WIDTH / 2, 30);
-  ctx.textAlign = 'start';
 }

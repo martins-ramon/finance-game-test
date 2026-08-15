@@ -1,10 +1,9 @@
-// Bootstrap do jogo: canvas, game loop e orquestração geral
+// Bootstrap do jogo: canvas 3D, game loop e orquestração geral
 
-let canvas, ctx, player, lastTime;
+let canvas, player, lastTime;
 
 function init() {
   canvas = document.getElementById('game-canvas');
-  ctx = canvas.getContext('2d');
 
   applyLoadedState(loadGame());
 
@@ -18,6 +17,7 @@ function init() {
     if (hat) player.hat = hat.emoji;
   }
 
+  initScene(canvas);
   updateHUD();
 
   if (!gameState.flags.seenWelcome) {
@@ -39,7 +39,7 @@ function loop(now) {
   lastTime = now;
 
   update(dt);
-  draw();
+  draw(dt);
 
   requestAnimationFrame(loop);
 }
@@ -56,11 +56,11 @@ function update(dt) {
   setCurrentLocation(loc);
 }
 
-function draw() {
-  ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
-  drawWorld(ctx);
-  drawPlayer(ctx, player);
-  drawJobMinigame(ctx);
+function draw(dt) {
+  updatePlayerMesh(player);
+  updateCamera(player, dt);
+  syncCoinMeshes();
+  renderScene();
 }
 
 document.addEventListener('DOMContentLoaded', init);

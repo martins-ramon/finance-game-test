@@ -77,15 +77,14 @@ canvas#game-canvas {
   display: block;
   width: 100%;
   height: auto;
-  background: #7cc576;
-  image-rendering: pixelated;
+  background: #bee7f5;
 }
 
-/* Prompt de interação */
-#interact-prompt {
+/* Prompt de interação e HUD flutuante sobre a cena 3D */
+#interact-prompt,
+.hud-floating {
   position: absolute;
   left: 50%;
-  bottom: 24px;
   transform: translateX(-50%);
   background: rgba(0,0,0,0.75);
   color: #fff;
@@ -94,6 +93,14 @@ canvas#game-canvas {
   font-size: 14px;
   font-weight: bold;
   pointer-events: none;
+}
+
+#interact-prompt {
+  bottom: 24px;
+}
+
+.hud-floating {
+  top: 64px;
 }
 
 kbd {

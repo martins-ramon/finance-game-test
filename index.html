@@ -27,6 +27,9 @@
     <!-- Prompt de interação flutuante -->
     <div id="interact-prompt" class="hidden">Pressione <kbd>E</kbd> para entrar</div>
 
+    <!-- HUD do minigame de trabalho (sobre a cena 3D) -->
+    <div id="job-hud" class="hud-floating hidden">⏱️ <span id="job-timer">10s</span> &nbsp;|&nbsp; 🪙 <span id="job-coins">R$ 0,00</span></div>
+
     <!-- Painel: Diálogo do Professor Coruja -->
     <div id="dialogue-modal" class="modal-overlay hidden">
       <div class="modal-panel dialogue-panel">
@@ -108,6 +111,7 @@
 
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="js/config.js"></script>
   <script src="js/utils.js"></script>
   <script src="js/gameState.js"></script>
